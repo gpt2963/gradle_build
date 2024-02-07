@@ -25,5 +25,7 @@ COPY src /app/src
 # Use the Gradle executable from the installation directory
 RUN /opt/gradle/bin/gradle clean war
 
+VOLUME ["/app/opt"]
+
 # Command to run the application (if applicable)
 # CMD ["java", "-war", "ROOT.war"]
