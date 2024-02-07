@@ -4,7 +4,20 @@ plugins {
 
 // Specify the WAR file settings
 war {
-    // Set the webapp directory as the root of the WAR file
-    webAppDirName = 'src/main/webapp'
-
+    // Set the WAR file name
+    archiveName = 'ROOT.war'
+    
+    // Define the contents of the WAR file
+    from('src/main/webapp') {
+        into 'WEB-INF/classes'
+        include '**/*'
+    }
+    // Include the web.xml file
+    webXml = file('src/main/webapp/WEB-INF/web.xml')
 }
+
+// Define dependencies if needed
+dependencies {
+    // Add your dependencies here
+}
+
