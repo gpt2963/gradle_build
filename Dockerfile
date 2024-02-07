@@ -1,31 +1,46 @@
-# Use CentOS 7 as the base image
+
+#Use CentOS as the base image
 FROM centos:7
 
+
 # Set environment variables for Gradle
-ENV GRADLE_VERSION=8.6 \
-    GRADLE_HOME=/opt/gradle \
-    PATH=$PATH:/opt/gradle/bin
+ENV GRADLE_VERSION=8.6
 
 # Install necessary tools and dependencies
-RUN yum install -y wget unzip java-11-openjdk-devel && \
-    yum clean all
+RUN yum install -y wget unzip java-11-openjdk-devel \
+        && cd /opt \
+        && wget -q --no-check-certificate https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip  \
+        && unzip -q gradle-${GRADLE_VERSION}-bin.zip \
+        && mv gradle-${GRADLE_VERSION} gradle \
+        && rm gradle-${GRADLE_VERSION}-bin.zip \
+        && yum clean all
 
-# Download and install Gradle
-RUN wget -q --no-check-certificate https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip && \
-    unzip -q gradle-${GRADLE_VERSION}-bin.zip -d /opt && \
-    rm gradle-${GRADLE_VERSION}-bin.zip
+# Set gradle environment variables and update PATH
+ENV GRADLE_HOME=/opt/gradle
+ENV PATH=${GRADLE_HOME}/bin:${PATH}
+
+# Set JAVA_HOME environment variable
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk
+
+# Create a directory in the container for the project
+RUN mkdir /app/
+
+
+# Copy the Gradle project files
+COPY build.gradle /app/.
+COPY src /app/src
 
 # Set the working directory
 WORKDIR /app
 
-# Copy the Gradle project files
-COPY build.gradle /app
-COPY src /app/src
+
+# Check Maven version
+RUN gradle --version
 
 # Use the Gradle executable from the installation directory
-RUN /opt/gradle/bin/gradle clean war
+RUN gradle clean build
 
 VOLUME ["/app/opt"]
 
 # Command to run the application (if applicable)
-# CMD ["java", "-war", "ROOT.war"]
+# CMD ["java", "-war", "ROOT.jar"]
