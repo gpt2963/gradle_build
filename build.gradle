@@ -1,0 +1,10 @@
+plugins {
+    id 'war'
+}
+
+// Specify the WAR file settings
+war {
+    // Set the webapp directory as the root of the WAR file
+    webAppDirName = 'src/main/webapp'
+
+}
