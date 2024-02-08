@@ -34,13 +34,10 @@ COPY src /app/src
 WORKDIR /app
 
 
-# Check Maven version
+# Check gardel  version
 RUN gradle --version
 
 # Use the Gradle executable from the installation directory
 RUN gradle clean build
 
 VOLUME ["/app/opt"]
-
-# Command to run the application (if applicable)
-# CMD ["java", "-war", "ROOT.jar"]
