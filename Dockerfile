@@ -7,7 +7,7 @@ FROM centos:7
 ENV GRADLE_VERSION=8.6
 
 # Install necessary tools and dependencies
-RUN yum install -y wget unzip java-11-openjdk-devel \
+RUN yum install -y wget unzip md5sum java-11-openjdk-devel \
         && cd /opt \
         && wget -q --no-check-certificate https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip  \
         && unzip -q gradle-${GRADLE_VERSION}-bin.zip \
