@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello, World!</title>
+    <title>Congratulation</title>
 </head>
 <body>
     <h1>Congratulation Congratulation </h1>
